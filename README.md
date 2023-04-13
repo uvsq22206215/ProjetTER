@@ -8,7 +8,7 @@ Table des matières (A modifier)
 |----------|:-------------:|------:|
 | Description |  Projet concernant les décisions de justice.Données récupérées depuis le site de la 'Cour de cassation'  | projet concernant le piratage. Base de donnée contenant toutes les informations regroupés dans le cadre de l'étude sur l'évolution du cyber-crime |
 | Modèle de BD |    Mongo DB   |  PostgreSql  |
-| Données | 2 Collections |    19 tables (relationnels) |
+| Données | 10 Collections |    19 tables (relationnels) |
 
 * Comparaison des deux modèles: MongoDB v/s PostgreSQL
 * Procédure d’accès aux différentes bases de données 
