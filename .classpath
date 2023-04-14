@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/OUMEZZAOUCHE Mohamed/Downloads/postgresql-42.6.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OUMEZZAOUCHE Mohamed/Desktop/mongoDB Driver/bson-4.8.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OUMEZZAOUCHE Mohamed/Desktop/mongoDB Driver/bson-record-codec-4.8.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OUMEZZAOUCHE Mohamed/Desktop/mongoDB Driver/graal-sdk-22.3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OUMEZZAOUCHE Mohamed/Desktop/mongoDB Driver/gson-2.10.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OUMEZZAOUCHE Mohamed/Desktop/mongoDB Driver/icu4j-71.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OUMEZZAOUCHE Mohamed/Desktop/mongoDB Driver/js-22.3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OUMEZZAOUCHE Mohamed/Desktop/mongoDB Driver/js-scriptengine-22.3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OUMEZZAOUCHE Mohamed/Desktop/mongoDB Driver/mongodb-driver-core-4.8.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OUMEZZAOUCHE Mohamed/Desktop/mongoDB Driver/mongodb-driver-sync-4.8.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OUMEZZAOUCHE Mohamed/Desktop/mongoDB Driver/mongojdbc4.8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OUMEZZAOUCHE Mohamed/Desktop/mongoDB Driver/regex-22.3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OUMEZZAOUCHE Mohamed/Desktop/mongoDB Driver/truffle-api-22.3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OUMEZZAOUCHE Mohamed/Desktop/mongoDB Driver/mongo-java-driver-3.12.13.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
