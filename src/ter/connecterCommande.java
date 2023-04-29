@@ -1,5 +1,6 @@
 package ter;
 
+import java.sql.SQLException;
 
 public class connecterCommande implements Command {
 	
@@ -12,7 +13,7 @@ public class connecterCommande implements Command {
 	}
 
 	@Override
-	public void execute() {
+	public void execute() throws SQLException {
 		receiver.connect(string);
 
 	}

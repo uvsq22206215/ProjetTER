@@ -13,8 +13,9 @@ public class App {
 		String newLine = System.getProperty("line.separator");
 		commands.put("PostgreSQL", new connecterCommande(receiver,"PostgreSQL"));
 		commands.put("MongoDB", new connecterCommande(receiver,"MongoDB"));
+		commands.put("EXIT", new exitCommande(receiver));
 		System.out.println("***Integration Database Application by OUMEZZAOUCHE Mohamed***");
-		System.out.println("Veuillez vous connecter à l'une des bases en saissisant PostgreSQL ou MongoDB");
+		System.out.println("Veuillez vous connecter a l'une des bases en saissisant PostgreSQL ou MongoDB");
 		while (true) {
 			System.out.print(">> ");
 			Scanner Commande = new Scanner(System.in);
