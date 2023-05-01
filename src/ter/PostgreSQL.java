@@ -14,10 +14,12 @@ public class PostgreSQL {
 		this.conn = conn;
 		Statement stmt = conn.createStatement();
 		commands.put("SELECT * FROM bsa", new selectPostgreSQLCommande(receiver,stmt));
+		commands.put("d", new afficheTablePostgreSQLCommande(receiver,stmt));
 		commands.put("QUIT", new quitCommand(receiver,conn));
 		System.out.println("***Bienvenue sur la base Piratage***");
 		System.out.println("Tapez SELECT * FROM [nom_de_table] pour faire un select sur une table");
-		System.out.println("Tapez QUIT pour fermer la connection et revenir à l'acceuil");
+		System.out.println("Tapez d pour afficher le nom des tables");
+		System.out.println("Tapez QUIT pour fermer la connexion et revenir à l'acceuil");
 		while (true) {
 			System.out.print(">> ");
 			Scanner Commande = new Scanner(System.in);

@@ -1,15 +1,24 @@
 package ter;
 
 import java.sql.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+import org.bson.Document;
 
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 
 public class Receiver {
+	
+	String newLine = System.getProperty("line.separator");
 
-	public void connect(String string) {
+	public void connect(String string) throws SQLException {
 		if(string == "PostgreSQL") {
 			try {
 			      //étape 1: charger la classe de driver
@@ -22,10 +31,10 @@ public class Receiver {
 			      System.out.println(e);
 		    }
 		
-	    }else {
+	    }else if(string == "MongoDB"){
 	    	try {
 				MongoClient mongoClient = MongoClients.create("mongodb+srv://Zeyphax:zeyphax00@bd-decisions.eok3p.mongodb.net/mshclemi");
-				MongoDatabase database = mongoClient.getDatabase("mshclemi");
+				MongoDB m = new MongoDB(mongoClient);
 	    	}catch (MongoException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -45,4 +54,54 @@ public class Receiver {
 		App app = new App();
 		
 	}
+
+	public void exit() {
+		System.out.print("Au revoir !");
+		System.exit(1);	
+	}
+
+	public void quitM(MongoClient mongoClient) throws SQLException {
+		mongoClient.close();
+		App app = new App();
+	}
+
+	public void selectMongo(MongoCollection<Document> collection) throws SQLException {
+	    int pageSize = 20;
+	    int pageNumber = 1;
+
+	    Scanner scanner = new Scanner(System.in);
+
+	    while (true) {
+	        MongoCursor<Document> cursor = collection.find().skip((pageNumber - 1) * pageSize).limit(pageSize).iterator();
+
+	        while (cursor.hasNext()) {
+	            System.out.println(cursor.next().toJson());
+	        }
+
+	        cursor.close();
+	        System.out.println(newLine);
+	        System.out.println("**Appuie sur entrée pour afficher d'autres tuples ou sur e pour quitter l'affichage**");
+
+	        if (scanner.hasNextLine()) {
+	            String line = scanner.nextLine();
+	            if (line.equalsIgnoreCase("e")) {
+	            	break;
+	            }
+	        }
+
+	        pageNumber++;
+	    }
+	}
+
+	public void afficheTablePostgreSQL(Statement stmt) throws SQLException {
+		ResultSet res = stmt.executeQuery("SELECT tablename FROM pg_tables WHERE schemaname = 'public'");
+		System.out.println("tableName");
+		System.out.println("..........");
+		while(res.next()) {
+			String tableName = res.getString(1);
+	        System.out.println(tableName);
+		}
+		
+	}
+
 }
