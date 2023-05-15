@@ -187,29 +187,29 @@ mongo_data = amende_collection.find()
 
 # mongo_data = mongo_collection.find({},{ "_id": 1, "annee": 1, "montant": 1 })
 
-# for x in mongo_data:
-#   print(x)
+for x in mongo_data:
+  print(x)
 
 # ********************** INSERTING THE MONGO DATA TO CREATED TABLES *********************
-pg_data = []
-for doc in mongo_data:
-    pg_doc = {
-        "annee": doc["annee"],
-        "montant": doc["montant"],
-        "__v": doc["__v"]
-    }
-    pg_data.append(pg_doc)
+#pg_data = []
+#for doc in mongo_data:
+ #   pg_doc = {
+  #      "annee": doc["annee"],
+   #     "montant": doc["montant"],
+    #    "__v": doc["__v"]
+    #}
+    #pg_data.append(pg_doc)*#
 
 #*********** LOADING THE TRANSFORMED DATA TO POSTGRES DB *******************************
 # Load data to PostgreSQL
-c = 0
-for pg_doc in pg_data:
-    c += 1
-    cur_dest.execute(
-        "INSERT INTO jl_amende (id, annee, montant, __v) VALUES (%s, %s, %s, %s)",
-        (c, pg_doc["annee"], pg_doc["montant"], pg_doc["__v"])
-    )
-conn_dest.commit()
+#c = 0
+#for pg_doc in pg_data:
+ #   c += 1
+  #  cur_dest.execute(
+   #     "INSERT INTO jl_amende (id, annee, montant, __v) VALUES (%s, %s, %s, %s)",
+    #    (c, pg_doc["annee"], pg_doc["montant"], pg_doc["__v"])
+    #)
+#conn_dest.commit()
 
 # # Close connections
 mongo_client.close()
