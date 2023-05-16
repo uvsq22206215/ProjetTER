@@ -1,7 +1,16 @@
 # ProjetTER
 
-Table des matières (A modifier)
 * Introduction
+
+Dans le cadre de ce projet, nous avons reçu un scénario initial dans lequel une application
+web existante interagit avec 2 modèles de base de données différents - un modèle
+relationnel et un modèle non relationnel. Ainsi, ce projet a pour but d'étudier ces deux
+modèles de base de données afin de trouver une meilleure façon d'en extraire les données,
+et donc de mettre en place des techniques d'intégration de données. 
+
+Pour plus de détails sur nos recherches et nos solutions, voir le rapport en pdf qui est inclus dans ce projet.
+
+
 * Présentation des bases de données
 
 |    |     Judilibre       |  Piratage |
@@ -10,19 +19,6 @@ Table des matières (A modifier)
 | Modèle de BD |    Mongo DB   |  PostgreSql  |
 | Données | 10 Collections |    19 tables (relationnels) |
 
-* Comparaison des deux modèles: MongoDB v/s PostgreSQL
-* Procédure d’accès aux différentes bases de données 
-* Etudes des BD et résultats obtenus (Tests)
-  * Similarités
-  * Différences
-  * Requêtes
-  * Résumé 
-  * Temps d’exécution
-  * Mémoire utilisée
-  * Avantages et inconvénients sur le long terme
-  * Poids et taille des données (au fil du temps)
-
-* Critères de sélection d’une base de données
 
 ***Présentation des solutions possibles:***
 
@@ -54,8 +50,6 @@ En résumé, la migration des données de MongoDB vers PostgreSQL peut avoir un 
 * Utiliser des outils ETL(Extract, Transform, Load) tels que Apache Nifi pour extraire les données des deux bases de données, les transformer dans un format commun, puis les charger dans une nouvelle base de données. Cette approche nécessite beaucoup d'efforts pour cartographier et transformer les données provenant de différentes BD.
 * Outil tiers : tel que Pentaho Data Integration qui peut nous aider à intégrer des données provenant de plusieurs bases de données. Ces outils offrent une interface "drag and drop" pour mapper les données de différentes sources et simplifier le processus d'intégration.
 
-**Conclusion** : Quelle est la meilleure Solution?
-
 **Solutions implémentées**
 
 ***Fusion**
@@ -73,48 +67,6 @@ données des deux bases et les fusionner en une seule base de données. L'implé
 
 
 - Conversion/Transformation des données : Comme les données exportées depuis MongoDB sont dans un format semi-structuré, il a donc été nécessaire de les convertir dans un format plus compatible au modèle postgreSQL. Bien qu’il soit possible d'utiliser des outils de conversion tels que Talend, ou Pentaho, nous avons choisi de s’occuper de la transformation à la main, en utilisant nos connaissances acquises dans le cours de conception de BD. Nous avons un peu procédé à un ‘reverse engineering’ à partir du modèle NoSQL de mongoDB vers un modèle entités associations puis vers un modèle relationnelle de table postgreSQL.
-
-* Les tables créées(avec un prefixe ‘jl_’):
-amende(), 
-cluster_minibatchkmeans, 
-cluster100, 
-cluster200, 
-cluster50, 
-decision, 
-ferme, 
-peine, 
-sursis, 
-word_minibatchkmeans. 
-
-* D’autres tables qui pourraient être utilisées pour les associations:
-contested, 
-number, 
-numberDecisions, 
-publication, 
-pubDecision, 
-theme, 
-themeDecision, 
-visa, 
-visaDecision, 
-rapprochement, 
-rapDecision, 
-timeline, 
-timelineDecision
-
-
-**Argument du type de transformation choisi** 
-Il existe effectivement d’autre types de transformations qui auraient pu être faits: par exemple, les structures de champs ‘String array’ en Mongodb pourraient être transformées en ‘TEXT[]’ en PostgreSQL. De plus, les ‘Object Array’ en Mongodb pourraient être transformées en ‘JSONB[]’. Néanmoins nous avons opté pour la simplicité et n’avons pas risqué d’utiliser des notions que l'on ne maîtrise pas vraiment. 
-
-- Fusion des données : Une fois les données converties (les tables créées dans la nouvelle base cible), il a été temps de les fusionner en utilisant les facilités offertes par les librairies utilisées sur python comme: pymongo, pandas ou psycopg2
-- Importation des données fusionnées : Enfin, les données fusionnées peuvent être importées dans une nouvelle base de données ou dans une des bases de données existantes.
-- Vérification des données : Une fois les données fusionnées et importées, il est important de vérifier leur qualité et leur intégrité. La vérification des données a été effectuée à l'aide de l’outil pgAdmin sur nos machines en locale.
-
-Néanmoins, la fusion a quand même un certain nombre d'implications et de complications potentielles, qui demande du temps et de la recherche supplémentaire. Certaines de ces implications et complications sont:
-    * Différences dans la conception des schémas: la migration des données a nécessité des changements significatifs au niveau du schéma. Cette solution peut exiger une planification minutieuse pour s'assurer que les données sont correctement traduites entre les deux systèmes.
-    * Différences dans le langage d'interrogation : MongoDB utilise un langage de requête basé sur les documents, tandis que PostgreSQL utilise un langage de requête basé sur SQL. Cela signifie que les requêtes écrites pour MongoDB peuvent devoir être réécrites pour fonctionner avec PostgreSQL. Cela peut prendre du temps et nécessiter une expertise importante dans les deux systèmes.
-    * Différences de performances : MongoDB et PostgreSQL ont des caractéristiques de performance différentes, ce qui peut entraîner des différences dans le temps d'exécution des requêtes et l'utilisation des ressources. Cela signifie que les requêtes qui fonctionnent bien sur MongoDB peuvent ne pas fonctionner aussi bien sur PostgreSQL, et vice versa.
-    * Considérations de sécurité : MongoDB et PostgreSQL ont des modèles de sécurité et des mécanismes de contrôle d'accès différents. Cela signifie qu'il peut être nécessaire d'évaluer soigneusement les considérations de sécurité lors de la migration des données entre les deux systèmes.
-    * La migration des données de MongoDB vers PostgreSQL peut avoir un certain nombre d'implications et de complications potentielles mais une planification minutieuse et la prise en compte de ces facteurs peuvent contribuer à la réussite du processus de migration.
 
 ***Solution médiateur**
     **Présentation d’une solution médiateur en CustomCode codée en java**
