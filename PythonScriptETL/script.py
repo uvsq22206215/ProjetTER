@@ -31,10 +31,10 @@ cur_dest = conn_dest.cursor()
 
 #*********** COPY OF THE POSTGRES REMOTE DB TO A LOCALLY CREATED ONE **************
 # A executer les commandes suivante sur le terminal
-# Create a backup of the source database
+# Créer une sauvegarde de la base de données source
 # "pg_dump -U piratage -h pg.adam.uvsq.fr -d piratage -f piratage.dump"
 
-# Restore the dump file to the destination database
+# Restaurer le fichier dump dans la base de données de destination
 # "psql -U user_ter -h localhost -d piratage_judilibre -f piratage.dump"
 
 # Close the cursor objects and database connections
@@ -170,29 +170,26 @@ create_timelineDecision_table_query = '''CREATE TABLE jl_timeline_decision
 # Connect to MongoDB
 mongo_client = pymongo.MongoClient("mongodb+srv://Zeyphax:zeyphax00@bd-decisions.eok3p.mongodb.net/")
 mongo_db = mongo_client["mshclemi"]
-#------ fetching only one collection at a time: ------
-amende_collection = mongo_db["amende"]
-cluster_min_collection = mongo_db["cluster-minibatchkmeans"]
-cluster_100_collection = mongo_db["cluster100"]
-cluster_200_collection = mongo_db["cluster200"]
-cluster_50_collection = mongo_db["cluster50"]
-decision_collection = mongo_db["decision"]
-ferme_collection = mongo_db["ferme"]
-peine_collection = mongo_db["peine"]
-sursis_collection = mongo_db["sursis"]
-word_collection = mongo_db["word-minibatchkmeans"]
-
-# Extract data from MongoDB
-mongo_data = amende_collection.find()
+#------ fetching only one collection at a time & extracting the data: ------
+amende_collection = mongo_db["amende"].find()
+cluster_min_collection = mongo_db["cluster-minibatchkmeans"].find()
+cluster_100_collection = mongo_db["cluster100"].find()
+cluster_200_collection = mongo_db["cluster200"].find()
+cluster_50_collection = mongo_db["cluster50"].find()
+decision_collection = mongo_db["decision"].find()
+ferme_collection = mongo_db["ferme"].find()
+peine_collection = mongo_db["peine"].find()
+sursis_collection = mongo_db["sursis"].find()
+word_collection = mongo_db["word-minibatchkmeans"].find()
 
 # mongo_data = mongo_collection.find({},{ "_id": 1, "annee": 1, "montant": 1 })
 
-# for x in mongo_data:
+# for x in amende_collection:
 #   print(x)
 
 # ********************** INSERTING THE MONGO DATA TO CREATED TABLES *********************
 pg_data = []
-for doc in mongo_data:
+for doc in amende_collection:
     pg_doc = {
         "annee": doc["annee"],
         "montant": doc["montant"],
@@ -209,6 +206,60 @@ for pg_doc in pg_data:
         "INSERT INTO jl_amende (id, annee, montant, __v) VALUES (%s, %s, %s, %s)",
         (c, pg_doc["annee"], pg_doc["montant"], pg_doc["__v"])
     )
+# *******************************************
+pg_data2 = []
+for doc in cluster_min_collection:
+    pg_doc = {
+        "cluster": doc["cluster"]
+    }
+    pg_data2.append(pg_doc)
+
+c = 0
+for pg_doc in pg_data2:
+    c += 1
+    cur_dest.execute(
+        "INSERT INTO jl_cluster_minibatchkmeans (id, cluster) VALUES (%s, %s)",
+        (c, pg_doc["cluster"])
+    )
+# ******************************************
+pg_data3 = []
+for doc in decision_collection:
+    pg_doc = {
+        "contested": doc["contested"],
+        "numbers": doc["numbers"],
+        "publication": doc["publication"],
+        # "themes": doc["themes"],
+        "timeline": doc["timeline"],
+        "visa": doc["visa"],
+        "rapprochements": doc["rapprochements"],
+        "text": doc["text"],
+        # "chamber": doc["chamber"],
+        "decision_date": doc["decision_date"],
+        "jurisdiction": doc["jurisdiction"],
+        "number": doc["number"],
+        "solution": doc["solution"],
+        # "type": doc["type"],
+        # "summary": doc["summary"],
+        # "update_date": doc["update_date"],
+        "forward": doc["forward"],
+        "__v": doc["__v"]
+    }
+    pg_data3.append(pg_doc)
+
+c = 0
+contested = 1
+for pg_doc in pg_data3:
+    c += 1 
+    if(pg_doc["contested"] != None):
+      # print(pg_doc["contested"])
+      cur_dest.execute(
+          "INSERT INTO jl_contested (id, date, title) VALUES (%s, %s, %s)",
+          (contested, pg_doc["contested"]["date"], pg_doc["contested"]["title"])
+      )
+      contested += 1
+      # Insertion de toutes les tables qui sont contenues dans jl_decision
+    # insertion dans jl_decision a la fin
+
 conn_dest.commit()
 
 # # Close connections
